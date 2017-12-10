@@ -1,10 +1,5 @@
 #include "choosingfiles.h"
-#include "ui_choosingfiles.h"
-#include <QList>
-#include <QCheckBox>
-#include <QStringList>
-#include <QWidgetList>
-#include <QListWidgetItem>
+
 
 ChoosingFiles::ChoosingFiles(QWidget *parent) :
     QMainWindow(parent),
@@ -12,7 +7,7 @@ ChoosingFiles::ChoosingFiles(QWidget *parent) :
 {
      ui->setupUi(this);
 
-    QListWidget* widget;
+    //QListWidget* widget;
     QWidgetList checkboxes;
 
 

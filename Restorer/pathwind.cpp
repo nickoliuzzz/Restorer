@@ -1,13 +1,4 @@
 #include "pathwind.h"
-#include "ui_pathwind.h"
-#include <QFile>
-#include <QDebug>
-#include <QString>
-#include <QFileDialog>
-#include <QLineEdit>
-#include <QMetaObject>
-#include <searching.h>
-#include <QMessageBox>
 
 
 QString fileName;
@@ -17,6 +8,7 @@ PathWind::PathWind(QWidget *parent) :
     ui(new Ui::PathWind)
 {
     ui->setupUi(this);
+
 }
 
 PathWind::~PathWind()
@@ -40,7 +32,14 @@ void PathWind::on_pushButton_2_clicked()
         QMessageBox::information(this,"Вы не выбрали путь","Укажите путь");
     }
     else{
-        Searching *form  = new Searching();
+        ntfs = new NTFS;
+        ChoosingPlaceForSave *form  = new ChoosingPlaceForSave();
         form->show();
+        ntfs->setPath(fileName);
+        ntfs->setAllDisk(false);
+        form->takeNTFS(ntfs);
+        this->setVisible(false);
+
+
     }
 }

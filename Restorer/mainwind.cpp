@@ -1,7 +1,5 @@
 #include "mainwind.h"
-#include "ui_mainwind.h"
-#include "pathwind.h"
-#include "choosingfiles.h"
+
 
 MainWind::MainWind(QWidget *parent) :
     QMainWindow(parent),
@@ -17,14 +15,17 @@ MainWind::~MainWind()
 
 void MainWind::on_pushButton_clicked()
 {
-    PathWind *form = new PathWind();
+    ChooseDisc *form = new ChooseDisc();
     form->show();
+    this->setVisible(false);
 
 }
 
 
 void MainWind::on_pushButton_2_clicked()
 {
-    ChoosingFiles *form = new ChoosingFiles;
+    PathWind *form = new PathWind;
     form->show();
+    this->setVisible(false);
+
 }

@@ -2,6 +2,10 @@
 #define MAINWIND_H
 
 #include <QMainWindow>
+#include "ui_mainwind.h"
+#include "pathwind.h"
+#include "choosingfiles.h"
+#include "choosedisc.h"
 
 namespace Ui {
 class MainWind;

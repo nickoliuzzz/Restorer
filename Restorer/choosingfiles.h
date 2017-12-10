@@ -2,6 +2,13 @@
 #define CHOOSINGFILES_H
 
 #include <QMainWindow>
+#include "ui_choosingfiles.h"
+#include <QList>
+#include <QCheckBox>
+#include <QStringList>
+#include <QWidgetList>
+#include <QListWidgetItem>
+
 
 namespace Ui {
 class ChoosingFiles;

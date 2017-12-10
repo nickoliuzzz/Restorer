@@ -2,6 +2,10 @@
 #define SEARCHING_H
 
 #include <QMainWindow>
+#include "ui_searching.h"
+#include <QString>
+#include <QStringList>
+
 
 namespace Ui {
 class Searching;
@@ -10,6 +14,7 @@ class Searching;
 class Searching : public QMainWindow
 {
     Q_OBJECT
+
 
 public:
     explicit Searching(QWidget *parent = 0);
