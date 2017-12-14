@@ -10,7 +10,6 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = Reserve
 TEMPLATE = app
-RC_FILE = coolapp.rc
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
@@ -33,7 +32,10 @@ SOURCES += \
     searching.cpp \
     choosingfiles.cpp \
     choosedisc.cpp \
-    choosingplaceforsave.cpp
+    choosingplaceforsave.cpp \
+    filesinfo.cpp \
+    datas.cpp \
+    mft.cpp
 
 HEADERS += \
         mainwind.h \
@@ -44,7 +46,10 @@ HEADERS += \
     choosingfiles.h \
     choosedisc.h \
     choosingplaceforsave.h \
-    coolapp.rc
+    coolapp.rc \
+    filesinfo.h \
+    datas.h \
+    mft.h
 
 FORMS += \
         mainwind.ui \

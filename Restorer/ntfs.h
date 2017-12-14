@@ -6,6 +6,17 @@
 #include <QFile>
 #include <QString>
 #include <QStringList>
+#include <QDebug>
+#include <QMessageBox>
+#include <QQueue>
+#include <filesinfo.h>
+#include <QList>
+
+
+#define SIZ 1024
+#define SIXBYTES 281474976710656
+#define FOURBYTES 4294967296
+
 
 class NTFS
 {
@@ -23,19 +34,36 @@ class NTFS
     QString folder;
     bool allDisk;
     QStringList formats;
+
+    QList<FilesInfo> files;
+
+    unsigned long long  number;
     unsigned long long int adress;
 
-    void fullPath();
+    QQueue<size> MFTSt;
+    QQueue<size> BitMap;
+    QQueue<size> MapOfClasters;
+
+
+
 public:
     NTFS();
-    QStringList getFormats();
-    void setPath(QString);
-    void setAllDisk(bool);
+    void start();
+    void init();
+    void fullPath();
+
     QString getPath();
-    void setPlaceForSave(QString);
+    QStringList getFormats();
     QString getPlaceForSave();
+
+    void setPath(QString);
+    void setAllDisk(bool);   
+    void setPlaceForSave(QString);    
     void addFormat(QString);
 
+    void goTo( long long int clast);
+    void goTosector( long long int, long long int);
+    MFT* takeNextMFT(char *);
 };
 
 

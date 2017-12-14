@@ -42,6 +42,8 @@ void ChooseFormat::on_pushButton_3_clicked()
     else{
 
         Searching *form  = new Searching();
+        ntfs->fullPath();
+        form->takeNTFS(ntfs);
         form->show();
         this->setVisible(false);
     }
