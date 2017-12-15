@@ -12,7 +12,7 @@ void datas::datas_s(Resident* temp)
     resident = true;
     int i , sm =temp->smAtr, j = temp->sizeOfAtr+temp->smAtr;
     i = sm;
-    for(i;i<=j;i++){
+    for(;i<=j;i++){
         buf.push_back(tempBuf[i]);
     }
 }

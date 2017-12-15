@@ -137,7 +137,7 @@ void NTFS::findLVS(){
             qDebug() << adress;
             return;
         }
-        QString temp = tmp.mid(1,k);    //1 = 0
+        QString temp = tmp.mid(0,k);    
         checkLVS(temp);
         qDebug() << adress;
         tmp = tmp.mid(k+1);
@@ -197,7 +197,6 @@ void NTFS::checkLVS(QString tmp){
 
                     QString temp1 = QString((QChar*)((int)name + 66 ),name->LenghtOfName );
                     if(tmp == temp1){
-                        qDebug() << "lel";
                         qDebug() << temp1;
                         qDebug() << tmp;
                         unsigned long long adr = ((unsigned long long)mft->LSVnumb ) * SIXBYTES;
@@ -217,8 +216,12 @@ void NTFS::checkLVS(QString tmp){
 }
 
 
-bool NTFS::compareTag(QString){
-    return true;
+bool NTFS::compareTag(QString tmp){
+   int k; 
+   if (tmp.indexOf('.') > 0 ) k = tmp.indexOf('.');
+   
+   QString temp = tmp.mid(k);
+   
 }
 
 

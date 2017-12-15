@@ -89,9 +89,53 @@ QQueue<size> MFT::takeQueOfClasters(Atribute* temp){
 
 
 bool MFT::chek(){
-    QString(start).mid(0,5) == "FILE0";
+    return QString(start).mid(0,5) == "FILE0";
+}
+
+bool MFT::checkAdress(unsigned long long adr){
+    MFT* mft;
+    Atribute* atr;
+    FILE_NAME* name;
+
+
+    mft = (MFT*)this;
+    if(!mft->chek())  return false;
+
+    atr = mft->searchAtribute(mft,48);
+    if(atr == NULL) return false;
+
+    name = mft->takeName(mft->takeResident(atr));
+    return ((unsigned long long)name->rootAdress == adr);
 
 }
+
+
+QString MFT::takeStringOfName(){
+
+    FILE_NAME* name;
+    Atribute* atr = searchAtribute(this,48);
+
+    while(atr != NULL){
+        if(atr->atributeMode == 48){
+
+            name = this->takeName(this->takeResident(atr));
+            if(name->SPACE == 2) continue;
+
+            QString temp1 = QString((QChar*)((int)name + 66 ),name->LenghtOfName );
+            return temp1;
+        }
+        if ((int)this + 1024 < (int)atr + atr->sizeOfAtribute)
+            atr = this->takeAtribute((MFT*)atr, atr->sizeOfAtribute);
+        else break;
+    }
+    atr = searchAtribute(this,48);
+    if(atr != NULL) {
+        QString temp1 = QString((QChar*)((int)name + 66 ),name->LenghtOfName );
+        return temp1;
+    }
+    else return QString("");
+}
+
 
 
 
@@ -102,3 +146,5 @@ size& size::operator=(const size& right){
     size1 = right.size1;
     return *this;
 }
+
+

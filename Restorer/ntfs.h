@@ -51,6 +51,10 @@ public:
     void start();
     void init();
     void fullPath();
+    void findLVS();             // find adree of choosed folder
+    void checkLVS(QString);
+
+    bool compareTag(QString);
 
     QString getPath();
     QStringList getFormats();

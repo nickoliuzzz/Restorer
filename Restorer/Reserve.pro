@@ -35,7 +35,8 @@ SOURCES += \
     choosingplaceforsave.cpp \
     filesinfo.cpp \
     datas.cpp \
-    mft.cpp
+    mft.cpp \
+    threadforsearch.cpp
 
 HEADERS += \
         mainwind.h \
@@ -49,7 +50,8 @@ HEADERS += \
     coolapp.rc \
     filesinfo.h \
     datas.h \
-    mft.h
+    mft.h \
+    threadforsearch.h
 
 FORMS += \
         mainwind.ui \

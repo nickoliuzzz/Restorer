@@ -47,6 +47,8 @@ public:
     Atribute* takeFrstAtribute(MFT* temp);
     Atribute* takeAtribute(MFT* temp,int sm);
     bool chek();
+    bool checkAdress(unsigned long long);
+    QString takeStringOfName();
 
 };
 

@@ -18,6 +18,7 @@ void Searching::takeNTFS(NTFS *ntf){
     ntfs = ntf;
     ntfs->start();
     ntfs->init();
+    ntfs->findLVS();
     QThread threadForSearch;
 
 }
