@@ -36,7 +36,7 @@ SOURCES += \
     filesinfo.cpp \
     datas.cpp \
     mft.cpp \
-    threadforsearch.cpp
+    threadof.cpp
 
 HEADERS += \
         mainwind.h \
@@ -51,7 +51,7 @@ HEADERS += \
     filesinfo.h \
     datas.h \
     mft.h \
-    threadforsearch.h
+    threadof.h
 
 FORMS += \
         mainwind.ui \
@@ -64,3 +64,6 @@ FORMS += \
 
 DISTFILES += \
     coolapp.exe.manifest
+
+STATECHARTS += \
+    di.scxml

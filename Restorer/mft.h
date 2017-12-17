@@ -50,6 +50,7 @@ public:
     bool checkAdress(unsigned long long);
     QString takeStringOfName();
 
+
 };
 
 

@@ -18,6 +18,7 @@ class datas
     void datas_s(NonResident*);
 
 public:
+    QString getStringOfSize();
     datas();
     datas(Atribute*);
     datas& operator=(const datas& right);

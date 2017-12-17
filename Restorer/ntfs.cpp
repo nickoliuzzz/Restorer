@@ -71,6 +71,8 @@ void NTFS::start(){
 }
 
 void NTFS::init(){
+    formats.sort();
+    if(formats[0] == "ALL" || formats[0] == "all") allFormats = true;
     Atribute *tempAtribute = NULL;
     char *buf = (char*)malloc(SIZ);
     MFT *tempMFT = (MFT*)malloc(SIZ);
@@ -137,12 +139,17 @@ void NTFS::findLVS(){
             qDebug() << adress;
             return;
         }
-        QString temp = tmp.mid(1,k);    //1 = 0
+        QString temp = tmp.mid(0,k);
         checkLVS(temp);
         qDebug() << adress;
         tmp = tmp.mid(k+1);
     }
 }
+
+QQueue<size> NTFS::getMFTst(){
+    return MFTSt;
+}
+
 
 void NTFS::checkLVS(QString tmp){
     QQueue<size> temp = MFTSt;
@@ -161,10 +168,10 @@ void NTFS::checkLVS(QString tmp){
     number =0;
 
     size sizes = temp.first();
-    temp.pop_front();
+
 
     while(temp.size() != 0){
-
+        temp.pop_front();
         siz = sizes.size1 * 4;
         i += sizes.start;
 
@@ -197,7 +204,6 @@ void NTFS::checkLVS(QString tmp){
 
                     QString temp1 = QString((QChar*)((int)name + 66 ),name->LenghtOfName );
                     if(tmp == temp1){
-                        qDebug() << "lel";
                         qDebug() << temp1;
                         qDebug() << tmp;
                         unsigned long long adr = ((unsigned long long)mft->LSVnumb ) * SIXBYTES;
@@ -212,19 +218,91 @@ void NTFS::checkLVS(QString tmp){
             }
         }
         sizes = temp.first();
-        temp.pop_front();
     }
 }
 
+unsigned long long NTFS::getAdress(){
+    return adress;
+}
 
-bool NTFS::compareTag(QString){
-    return true;
+bool NTFS::getAllDisk(){
+    return allDisk;
+}
+
+//return true if
+bool NTFS::checkDeleted(MFT *mft, unsigned long long n){
+   //if( mft->Linkes != 0) return false;
+   if(checkClasters(BitMap,n - 1)) return true;
+   return false;
+}
+
+bool NTFS::checkClasters(QQueue<size> temp,unsigned long long n){           //return true if claster or MFT not used
+    unsigned long long tmp = 0;
+    unsigned long long tmpi = 0;
+    bool flag = false;
+    while (temp.size() != 0) {
+        tmp = temp.first().size1 * sizeOfClaster * 8;   //SIZEOFBYTE = 8 bit
+        tmpi += temp.first().start;
+        if (tmp > n)
+        {
+            long long clast = n / (sizeOfClaster * 8);
+            long long numMft = (n % (sizeOfClaster * 8)) / (sizeOfMFT * 8);
+            long long byte = (n % (sizeOfMFT * 8)) / 8;;
+            long long bit = n % 8;
+
+            goTosector(tmpi + clast, numMft);
+
+            char c, *buf = new char[SIZ];
+
+            hFile.read(buf,SIZ);
+
+            c = buf[byte];
+
+
+            flag = !((c >> bit) & 1);
+            break;
+        }
+        n -= tmp;
+        temp.pop_front();
+    }
+    return flag;
+
+}
+
+
+void NTFS::addDatas(FilesInfo temp){
+    files.push_back(temp);
+}
+
+
+bool NTFS::compareTag(QString tmp){
+
+   int k;
+   if (tmp.indexOf('.') > 0 ) k = tmp.indexOf('.');
+   else return false;
+
+   if(allFormats) return true;
+
+   tmp = tmp.mid(k);
+
+   int i,n = formats.size();
+   bool flg = false;
+   QString temp;
+
+   for(i=0; i < n; i++){
+       temp = formats[i];
+       if(tmp == temp.toLower() || temp.toUpper() == tmp){
+           flg = true;
+           break;
+       }
+   }
+   return flg;
 }
 
 
 
 void NTFS::fullPath(){
-    Disk = path;
+    Disk = path.mid(0, 1);
     if(allDisk) return;
     folder = path.mid(3, path.size()-1);
 }
@@ -245,8 +323,12 @@ void NTFS::goTosector( long long int clast, long long int number){
 
 MFT* NTFS::takeNextMFT(char *buf){
     hFile.read(buf,SIZ);
-    qDebug() << hFile.errorString();
+  //  qDebug() << hFile.errorString();
     return (MFT*)buf;
+}
+
+unsigned long long NTFS::getSectorInClast(){
+    return (sizeOfClaster / sizeOfSetor);
 }
 
 

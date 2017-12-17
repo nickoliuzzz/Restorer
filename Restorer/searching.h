@@ -7,6 +7,7 @@
 #include <QString>
 #include <QStringList>
 #include "ntfs.h"
+#include "threadOf.h"
 
 namespace Ui {
 class Searching;
@@ -18,14 +19,19 @@ class Searching : public QMainWindow
     NTFS *ntfs;
     MFT* mft;
     char buf[1024];
+    threadOf threa;
 
 
 public:
     explicit Searching(QWidget *parent = 0);
     ~Searching();
     void takeNTFS(NTFS *ntfs);
+private slots:
+    void on_pushButton_2_clicked();
+
 private:
     Ui::Searching *ui;
+
 };
 
 

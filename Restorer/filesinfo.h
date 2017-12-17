@@ -12,9 +12,11 @@ class FilesInfo
     datas data;
     QString name;
 public:
+    datas getData();
+    QString getName();
     FilesInfo();
     FilesInfo(datas,QString);
-    void Restore();
+    FilesInfo& operator=(const FilesInfo& right);
 
 };
 

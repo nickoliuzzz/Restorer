@@ -31,6 +31,18 @@ datas::datas(Atribute* temp)
 }
 
 
+QString datas::getStringOfSize(){
+    if(resident) return (QString::number(buf.size()) + "Б");
+     QQueue<size> temp = NonResidentData;
+     unsigned long long i = 0;
+     while(temp.size() != 0){
+         i += temp.first().size1;
+         temp.pop_front();
+     }
+     return  QString::number(i) + "KБ";
+}
+
+
 datas& datas::operator=(const datas& right){
     if(this == &right)
         return *this;

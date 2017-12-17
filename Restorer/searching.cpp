@@ -18,7 +18,14 @@ void Searching::takeNTFS(NTFS *ntf){
     ntfs = ntf;
     ntfs->start();
     ntfs->init();
-    ntfs->findLVS();
-    QThread threadForSearch;
+    threa.takeNTFS(ntfs);
+    threa.takeUI(ui->listWidget);
+    ui->statusbar->setMaximumWidth((int)threa.getMaxOfProgress());
 
+
+}
+
+void Searching::on_pushButton_2_clicked()
+{
+        threa.run();
 }

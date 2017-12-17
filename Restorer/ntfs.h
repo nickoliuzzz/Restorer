@@ -33,6 +33,7 @@ class NTFS
     QString Disk;
     QString folder;
     bool allDisk;
+    bool allFormats;
     QStringList formats;
 
     QList<FilesInfo> files;
@@ -55,15 +56,23 @@ public:
     void checkLVS(QString);
 
     bool compareTag(QString);
+    bool checkDeleted(MFT*, unsigned long long);
+    bool checkClasters(QQueue<size>,unsigned long long);
+
 
     QString getPath();
     QStringList getFormats();
     QString getPlaceForSave();
+    unsigned long long getAdress();
+    bool getAllDisk();
+    QQueue<size> getMFTst();
+    unsigned long long getSectorInClast();
 
     void setPath(QString);
     void setAllDisk(bool);   
     void setPlaceForSave(QString);    
     void addFormat(QString);
+    void addDatas(FilesInfo);
 
     void goTo( long long int clast);
     void goTosector( long long int, long long int);
