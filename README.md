@@ -6,5 +6,5 @@
 2. Qt — кроссплатформенный фреймворк для разработки программного обеспечения на языке программирования C++. 
 
 ## Аналоги
-* [Recuva](www.piriform.com/recuva)
+* [Recuva](http://www.piriform.com/recuva)
 * [R-Studio](http://www.R-studio.com/ru)
