@@ -20,6 +20,7 @@
 
 class NTFS
 {
+    bool chekAllMemery(datas&);
     unsigned int sizeOfClaster;
     unsigned int sizeOfSetor;
     unsigned long long int numberOfSectors;
@@ -67,12 +68,14 @@ public:
     bool getAllDisk();
     QQueue<size> getMFTst();
     unsigned long long getSectorInClast();
+    QList<FilesInfo> getFiles();
 
     void setPath(QString);
     void setAllDisk(bool);   
     void setPlaceForSave(QString);    
     void addFormat(QString);
     void addDatas(FilesInfo);
+    void restore(FilesInfo data,unsigned long long i);
 
     void goTo( long long int clast);
     void goTosector( long long int, long long int);

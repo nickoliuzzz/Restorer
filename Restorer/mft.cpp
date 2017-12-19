@@ -29,6 +29,7 @@ Resident* MFT::takeResident(Atribute* temp) {
 }
 
 FILE_NAME* MFT::takeName(Resident* temp) {
+    if(temp == NULL) return NULL;
     return (FILE_NAME*)((int)temp + SIZERESIDENT);
 }
 
@@ -44,6 +45,7 @@ Atribute* MFT::searchAtribute(MFT* tempMft, int mode) {
             break;
         }
         temp = takeAtribute((MFT*)temp, temp->sizeOfAtribute);
+        flag = temp != NULL;
     }
     if (flag) return temp;
     return NULL;

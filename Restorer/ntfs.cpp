@@ -7,6 +7,9 @@ NTFS::NTFS()
 {    
 }
 
+
+QList<FilesInfo> NTFS::getFiles(){return files;}
+
 void NTFS::setPath(QString pat){
     this->path = pat;
 }
@@ -72,7 +75,9 @@ void NTFS::start(){
 
 void NTFS::init(){
     formats.sort();
-    if(formats[0] == "ALL" || formats[0] == "all") allFormats = true;
+    bool flg = false;
+    allFormats = (formats[0] == "ALL" || formats[0] == "all");
+
     Atribute *tempAtribute = NULL;
     char *buf = (char*)malloc(SIZ);
     MFT *tempMFT = (MFT*)malloc(SIZ);
@@ -117,8 +122,7 @@ void NTFS::init(){
     }
     tempAtribute =tempMFT->searchAtribute(tempMFT, 128);
     MapOfClasters =tempMFT->takeQueOfClasters(tempAtribute);
-    qDebug() << " konec inita";
-    qDebug() << adress;
+
 
 }
 
@@ -172,7 +176,7 @@ void NTFS::checkLVS(QString tmp){
 
     while(temp.size() != 0){
         temp.pop_front();
-        siz = sizes.size1 * 4;
+        siz = sizes.size1 * this->getSectorInClast();
         i += sizes.start;
 
         goTo(i);
@@ -183,9 +187,10 @@ void NTFS::checkLVS(QString tmp){
             if(debag != SIZ) exit(2);
 
             mft = (MFT*)buf;
+            number++;
             if(!mft->chek()) continue;
 
-            number++;
+
 
             atr = mft->searchAtribute(mft,48);
             if(atr == NULL) continue;
@@ -204,8 +209,6 @@ void NTFS::checkLVS(QString tmp){
 
                     QString temp1 = QString((QChar*)((int)name + 66 ),name->LenghtOfName );
                     if(tmp == temp1){
-                        qDebug() << temp1;
-                        qDebug() << tmp;
                         unsigned long long adr = ((unsigned long long)mft->LSVnumb ) * SIXBYTES;
                         adr += (number - 1);
                         adress = adr;
@@ -278,12 +281,12 @@ void NTFS::addDatas(FilesInfo temp){
 bool NTFS::compareTag(QString tmp){
 
    int k;
-   if (tmp.indexOf('.') > 0 ) k = tmp.indexOf('.');
+   if (tmp.indexOf('.') > 1 ) k = tmp.indexOf('.');
    else return false;
 
    if(allFormats) return true;
 
-   tmp = tmp.mid(k);
+   tmp = tmp.mid(k + 1);
 
    int i,n = formats.size();
    bool flg = false;
@@ -299,6 +302,48 @@ bool NTFS::compareTag(QString tmp){
    return flg;
 }
 
+
+bool NTFS::chekAllMemery(datas& temp){          //if file can be reserved - true
+    if(temp.isResident()) return true;
+
+    QQueue<size> Checker = BitMap;
+    QQueue<size>  tmp = temp.getNonResident();
+
+    unsigned long long i = 0;
+    unsigned long long siz = 0;
+    bool flag = true;
+
+
+    size sizes;
+
+
+    while(true){
+        sizes = tmp.first();
+        siz = sizes.size1;
+        i += sizes.start;
+        while(siz--){
+            if(!checkClasters(Checker,i + siz) ) {flag = false; break;}
+        }
+        if(!flag) break;
+        if(tmp.size() == 0) break;
+        tmp.pop_front();
+    }
+    return flag;
+}
+
+
+void NTFS::restore(FilesInfo data,unsigned long long i){
+    QFile file;
+    file.setFileName(placeForSave + "/" + QString::number(i) + data.getName());
+    if (!hFile.open(QIODevice::WriteOnly)) {
+        qDebug() << hFile.errorString();
+        return;
+    }
+    datas dat = data.getData();
+    if(!chekAllMemery(dat)) return;
+    if(dat.isResident()) data.getData().restoreResident(file);
+    //else dat.restoreNon(file);
+}
 
 
 void NTFS::fullPath(){
@@ -328,7 +373,7 @@ MFT* NTFS::takeNextMFT(char *buf){
 }
 
 unsigned long long NTFS::getSectorInClast(){
-    return (sizeOfClaster / sizeOfSetor);
+    return (sizeOfClaster / SIZ);
 }
 
 

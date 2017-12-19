@@ -1,16 +1,15 @@
-#include "threadOf.h"
+#include "threadofsearch.h"
 
-threadOf::threadOf()
+threadOfSearch::threadOfSearch()
 {
-    stop = false;
 }
 
-void threadOf::takeNTFS(NTFS *ntf){
+void threadOfSearch::takeNTFS(NTFS *ntf){
     ntfs = ntf;
 }
 
 
-void threadOf::run(){
+void threadOfSearch::run(){
     ntfs->findLVS();
     QQueue<size> temp = ntfs->getMFTst();
 
@@ -24,25 +23,26 @@ void threadOf::run(){
     FILE_NAME* name;
     Atribute* atr;
 
-    QStringList list;
+
  //   ntfs->goTosector(0,0);//
     while (temp.size() != 0) {
         siz = temp.first().size1 * ntfs->getSectorInClast() ;
         i += temp.first().start;
 
         while(siz--){
-            if(stop) return;
            ntfs->goTosector(i, col);
             mft = ntfs->takeNextMFT(buf);
             col++;
             if(!mft->chek()) continue;
             number++;
-
             name = mft->takeName(mft->takeResident(mft->searchAtribute(mft,48)));
+            if(name == NULL) continue;
+
             if(!ntfs->getAllDisk())
                 if((unsigned long long)name->rootAdress != ntfs->getAdress()) continue;
 
             QString tempName = mft->takeStringOfName();
+
             if(!ntfs->compareTag(tempName)) continue;
 
             if(mft->Linkes == 0) {
@@ -60,19 +60,28 @@ void threadOf::run(){
 
             ntfs->addDatas(tmp);
             list.push_back(mft->takeStringOfName() + "  " + dat.getStringOfSize());
+            emit send(); //и тут
 
-            ui->clear();
-            ui->addItems(list);
+
         }
         temp.pop_front();
     }
+
 }
 
-void threadOf::takeUI(QListWidget *ui1){
+
+QStringList threadOfSearch::getList(){
+
+    return list;
+}
+
+
+
+void threadOfSearch::takeUI(QListWidget *ui1){
     ui = ui1;
 }
 
-int threadOf::getMaxOfProgress(){
+int threadOfSearch::getMaxOfProgress(){
     QQueue<size> temp = ntfs->getMFTst();
     unsigned long long i = 0;
 

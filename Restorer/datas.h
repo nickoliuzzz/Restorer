@@ -4,7 +4,7 @@
 #include <QString>
 #include <QQueue>
 #include <mft.h>
-
+#include <QFile>
 
 
 
@@ -18,10 +18,14 @@ class datas
     void datas_s(NonResident*);
 
 public:
+    bool isResident();
+    QQueue<size> getNonResident();
     QString getStringOfSize();
     datas();
     datas(Atribute*);
     datas& operator=(const datas& right);
+    void restoreResident(QFile&);
+    void restoreNon(QFile&);
 
 };
 

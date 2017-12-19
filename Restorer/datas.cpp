@@ -6,12 +6,23 @@ datas::datas()
 }
 
 
+bool datas::isResident() { return resident;}
+
+QQueue<size> datas::getNonResident(){return NonResidentData;}
+
+
+
 void datas::datas_s(Resident* temp)
 {
-    char* tempBuf = (char*)temp;
+
     resident = true;
     int i , sm =temp->smAtr, j = temp->sizeOfAtr+temp->smAtr;
     i = sm;
+    char* tempBuf = (char*)temp + sm;
+    QString tm = QString(tempBuf).mid(i,j);
+    QString tm1 = QString(tempBuf + sm).mid(0,j - i);
+    QString tm2 = QString(tempBuf + sm).mid(0,(j - i + 1) / 2);
+    buf = tm;
     for(;i<=j;i++){
         buf.push_back(tempBuf[i]);
     }
@@ -50,4 +61,9 @@ datas& datas::operator=(const datas& right){
     NonResidentData = right.NonResidentData;
     resident = right.resident;
     return *this;
+}
+
+
+void datas::restoreResident(QFile& file){
+    file.write(buf.toUtf8().data(),buf.toUtf8().size());
 }

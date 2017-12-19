@@ -8,6 +8,8 @@
 #include <QStringList>
 #include <QWidgetList>
 #include <QListWidgetItem>
+#include "ntfs.h"
+
 
 
 namespace Ui {
@@ -21,9 +23,19 @@ class ChoosingFiles : public QMainWindow
 public:
     explicit ChoosingFiles(QWidget *parent = 0);
     ~ChoosingFiles();
+    void takeNTFS(NTFS*);
+    void takeList(QStringList lis);
+
+private slots:
+    void on_pushButton_clicked();
 
 private:
     Ui::ChoosingFiles *ui;
+    NTFS* ntfs;
+    QStringList list;
+
+
+
 };
 
 #endif // CHOOSINGFILES_H

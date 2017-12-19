@@ -6,6 +6,11 @@
 
 QT       += core gui
 
+QT       += core core
+QT -= gui
+QT += core
+QT += widgets
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = Reserve
@@ -36,7 +41,8 @@ SOURCES += \
     filesinfo.cpp \
     datas.cpp \
     mft.cpp \
-    threadof.cpp
+    threadof.cpp \
+    threadofsearch.cpp
 
 HEADERS += \
         mainwind.h \
@@ -51,7 +57,8 @@ HEADERS += \
     filesinfo.h \
     datas.h \
     mft.h \
-    threadof.h
+    threadof.h \
+    threadofsearch.h
 
 FORMS += \
         mainwind.ui \
