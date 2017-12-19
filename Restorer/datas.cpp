@@ -19,13 +19,9 @@ void datas::datas_s(Resident* temp)
     int i , sm =temp->smAtr, j = temp->sizeOfAtr+temp->smAtr;
     i = sm;
     char* tempBuf = (char*)temp + sm;
-    QString tm = QString(tempBuf).mid(i,j);
-    QString tm1 = QString(tempBuf + sm).mid(0,j - i);
-    QString tm2 = QString(tempBuf + sm).mid(0,(j - i + 1) / 2);
-    buf = tm;
-    for(;i<=j;i++){
-        buf.push_back(tempBuf[i]);
-    }
+    buf = QString::fromLocal8Bit(tempBuf,j-i);
+
+   // }
 }
 
 

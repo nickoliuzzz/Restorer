@@ -41,7 +41,6 @@ SOURCES += \
     filesinfo.cpp \
     datas.cpp \
     mft.cpp \
-    threadof.cpp \
     threadofsearch.cpp
 
 HEADERS += \
@@ -57,7 +56,6 @@ HEADERS += \
     filesinfo.h \
     datas.h \
     mft.h \
-    threadof.h \
     threadofsearch.h
 
 FORMS += \

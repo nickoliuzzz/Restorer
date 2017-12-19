@@ -54,7 +54,7 @@ ChoosingFiles::~ChoosingFiles()
 
 void ChoosingFiles::on_pushButton_clicked()
 {
-    QList<FilesInfo> files;
+    QList<FilesInfo> files = ntfs->getFiles();
     int n = files.size();
     for(int i = 0; i < n; i++){
         ntfs->restore(files.at(i),i);

@@ -335,8 +335,8 @@ bool NTFS::chekAllMemery(datas& temp){          //if file can be reserved - true
 void NTFS::restore(FilesInfo data,unsigned long long i){
     QFile file;
     file.setFileName(placeForSave + "/" + QString::number(i) + data.getName());
-    if (!hFile.open(QIODevice::WriteOnly)) {
-        qDebug() << hFile.errorString();
+    if (!file.open(QIODevice::WriteOnly)) {
+        qDebug() << file.errorString();
         return;
     }
     datas dat = data.getData();
